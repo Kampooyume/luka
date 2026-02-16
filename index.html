@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Luka</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div id="main">
+      <header id="header">
+        <h1>Our Beautiful Journey</h1>
+        <p>Simply Us</p>
+      </header>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-header">
+            <div
+              class="card-cover"
+              style="background-image: url(&quot;images/cards/anv.jpg&quot;)"
+            ></div>
+            <img class="card-avatar" src="images/cards/anv.jpg" alt="avatar" />
+            <h1 class="card-fullname" id="startDate"></h1>
+            <h2 class="card-jobtitle">Hand in hand since</h2>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div
+              class="card-cover"
+              style="
+                background-image: url(&quot;images/cards/counting.jpg&quot;);
+              "
+            ></div>
+            <img
+              class="card-avatar"
+              src="images/cards/counting.jpg"
+              alt="avatar"
+            />
+            <h1 class="card-fullname" id="totalDays"></h1>
+            <h2 class="card-jobtitle">beau. days & counting</h2>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div
+              class="card-cover"
+              style="
+                background-image: url(&quot;images/cards/countdown.jpg&quot;);
+              "
+            ></div>
+            <img
+              class="card-avatar"
+              src="images/cards/countdown.jpg"
+              alt="avatar"
+            />
+            <h1 class="card-fullname" id="countdownYear"></h1>
+            <h2 class="card-jobtitle">Countdown to anniv.</h2>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div
+              class="card-cover"
+              style="background-image: url(&quot;images/cards/today.jpg&quot;)"
+            ></div>
+            <img
+              class="card-avatar"
+              src="images/cards/today.jpg"
+              alt="avatar"
+            />
+            <h1 class="card-fullname">Today is good day</h1>
+            <h2 class="card-jobtitle">to love even more</h2>
+          </div>
+        </div>
+      </div>
+
+      <header id="header">
+        <h1>Through My Lens</h1>
+        <p>Gallery</p>
+      </header>
+
+      <section id="thumbnails"></section>
+
+      <footer id="footer">
+        <ul class="copyright">
+          <li>&copy; Luka Gallery</li>
+        </ul>
+      </footer>
+    </div>
+
+    <script>
+      const startDate = new Date("2024-09-08");
+      const today = new Date();
+
+      // Display start date
+      document.getElementById("startDate").innerText =
+        startDate.toLocaleDateString("en-US", { dateStyle: "long" });
+
+      // Total days together
+      const diffTime = today - startDate;
+      const totalDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      document.getElementById("totalDays").innerText = totalDays + " Days";
+
+      // Next yearly anniversary
+      let nextYear = new Date(today.getFullYear(), 8, 8);
+      if (today > nextYear) {
+        nextYear.setFullYear(nextYear.getFullYear() + 1);
+      }
+      const diffYear = Math.ceil((nextYear - today) / (1000 * 60 * 60 * 24));
+      document.getElementById("countdownYear").innerText = diffYear + " Days";
+    </script>
+
+    <!-- Load core script -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+
+    <script>
+      async function initGallery() {
+        try {
+          const response = await fetch("./data_cleaned.json");
+          const imageList = await response.json();
+
+          imageList.sort((a, b) => parseInt(b.date) - parseInt(a.date));
+
+          const container = document.getElementById("thumbnails");
+
+          imageList.forEach((day) => {
+            day.images.forEach((img) => {
+              const filename = `${day.date}_${img.id}`;
+              const article = document.createElement("article");
+              // fulls
+              article.innerHTML = `
+          <a class="thumbnail" href="images/thumbs/${filename}.jpg">
+            <img src="images/thumbs/${filename}.jpg" alt="" />
+          </a>
+          <h2></h2>
+          <p>${img.description}
+          <br />
+          <p class="date">${formatDate(day.date)}</p>
+          </p>
+        `;
+
+              container.appendChild(article);
+            });
+          });
+
+          const msnry = new Masonry(container, {
+            itemSelector: "article",
+            percentPosition: true,
+          });
+
+          imagesLoaded(container).on("progress", function () {
+            msnry.layout();
+          });
+
+          const script = document.createElement("script");
+          script.src = "assets/js/main.js";
+          document.body.appendChild(script);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      function formatDate(d) {
+        return `${d.slice(6, 8)} / ${d.slice(4, 6)} / ${d.slice(0, 4)}`;
+      }
+
+      initGallery();
+    </script>
+  </body>
+</html>
