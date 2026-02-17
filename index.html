@@ -85,6 +85,158 @@
       </div>
 
       <header id="header">
+        <h1>Our Timeline</h1>
+        <p>Moments that matter</p>
+      </header>
+
+      <section class="timeline">
+        <div class="timeline-item timeline-item-left">
+          <div class="timeline-content">
+            <h3>15 Aug 2024</h3>
+            <p>Our first photo together,<br />Our first meal together.</p>
+          </div>
+          <div class="timeline-image">
+            <img
+              src="images/timelines/20240815_01.jpg"
+              class="timeline-image-portrait"
+              alt="moment"
+            />
+            <img
+              src="images/timelines/20240815_02.jpg"
+              class="timeline-image-portrait"
+              alt="moment"
+            />
+          </div>
+        </div>
+
+        <div class="timeline-item timeline-item-right">
+          <div class="timeline-content">
+            <h3>24 Aug 2024</h3>
+            <p>Our first art activity together.</p>
+          </div>
+          <div class="timeline-image">
+            <img
+              src="images/timelines/20240824_01.jpg"
+              class="timeline-image-portrait"
+              alt="moment"
+            />
+          </div>
+        </div>
+
+        <div class="timeline-item timeline-item-left">
+          <div class="timeline-content">
+            <h3>8 Oct 2024</h3>
+            <p>The first bouquet you gave me.</p>
+          </div>
+          <div class="timeline-image">
+            <img
+              src="images/timelines/20241008_01.jpg"
+              class="timeline-image-portrait"
+              alt="moment"
+            />
+            <img
+              src="images/timelines/20241008_02.jpg"
+              class="timeline-image-portrait"
+              alt="moment"
+            />
+          </div>
+        </div>
+
+        <div class="timeline-item timeline-item-left">
+          <div class="timeline-content">
+            <h3>10 Nov 2024</h3>
+            <p>The first bouquet I gave you.</p>
+          </div>
+          <div class="timeline-image">
+            <img
+              src="images/timelines/20241110_01.jpg"
+              class="timeline-image-portrait"
+              alt="moment"
+            />
+          </div>
+        </div>
+
+        <div class="timeline-item timeline-item-left">
+          <div class="timeline-content">
+            <h3>15 Apr 2025</h3>
+            <p>
+              Our first Songkran together,<br />
+              Our very first train journey together.
+            </p>
+          </div>
+          <div class="timeline-image">
+            <img
+              src="images/timelines/20250415_01.jpg"
+              class="timeline-image-portrait"
+              alt="moment"
+            />
+            <img
+              src="images/timelines/20250415_02.jpg"
+              class="timeline-image-portrait"
+              alt="moment"
+            />
+          </div>
+        </div>
+
+        <div class="timeline-item timeline-item-left">
+          <div class="timeline-content">
+            <h3>29 May 2025</h3>
+            <p>My first photo with the most beautiful nurse.</p>
+          </div>
+          <div class="timeline-image">
+            <img
+              src="images/timelines/20250529_01.jpg"
+              class="timeline-image-portrait"
+              alt="moment"
+            />
+            <img
+              src="images/timelines/20250529_02.jpg"
+              class="timeline-image-landscape"
+              alt="moment"
+            />
+          </div>
+        </div>
+
+        <div class="timeline-item timeline-item-left">
+          <div class="timeline-content">
+            <h3>10 Aug 2025</h3>
+            <p>I made my very first cross-stitch just for you.</p>
+          </div>
+          <div class="timeline-image">
+            <img
+              src="images/timelines/20250810_01.jpg"
+              class="timeline-image-portrait"
+              alt="moment"
+            />
+            <img
+              src="images/timelines/20250810_02.jpg"
+              class="timeline-image-portrait"
+              alt="moment"
+            />
+          </div>
+        </div>
+
+        <div class="timeline-item timeline-item-left">
+          <div class="timeline-content">
+            <h3>7 Dec 2025</h3>
+            <p>The first time we went to the beach together.</p>
+          </div>
+          <div class="timeline-image">
+            <img
+              src="images/timelines/20251207_01.jpg"
+              class="timeline-image-portrait"
+              alt="moment"
+            />
+            <img
+              src="images/timelines/20251207_02.jpg"
+              class="timeline-image-portrait"
+              alt="moment"
+            />
+          </div>
+        </div>
+      </section>
+
+      <header id="header">
         <h1>Through My Lens</h1>
         <p>Gallery</p>
       </header>
@@ -180,6 +332,28 @@
       }
 
       initGallery();
+    </script>
+
+    <script>
+      const timelineItems = document.querySelectorAll(".timeline-item");
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("show");
+            }
+          });
+        },
+        {
+          threshold: 0.2,
+        },
+      );
+
+      timelineItems.forEach((item, index) => {
+        item.style.transitionDelay = `${index * 0.15}s`;
+        observer.observe(item);
+      });
     </script>
   </body>
 </html>
